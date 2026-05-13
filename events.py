@@ -6,7 +6,7 @@ pygame.init()
 
 # Set up a small window so pygame can read the keyboard
 screen = pygame.display.set_mode([500, 500])
-pygame.display.set_caption("Drone Keyboard Control")
+pygame.display.set_caption("Drone Control")
 
 # Connect to the drone
 drone = Drone()
@@ -42,12 +42,16 @@ while running:
             # wasd - fly forward/back/left/right
             if event.key == pygame.K_w:
                 drone.set_pitch(speed)
+                drone.set_drone_LED(0, 255, 0, 255)  # green = forward
             if event.key == pygame.K_s:
                 drone.set_pitch(-speed)
+                drone.set_drone_LED(255, 0, 0, 255)  # red = backward
             if event.key == pygame.K_a:
                 drone.set_roll(-speed)
+                drone.set_drone_LED(0, 0, 255, 255)  # blue = left
             if event.key == pygame.K_d:
                 drone.set_roll(speed)
+                drone.set_drone_LED(255, 255, 0, 255)  # yellow = right
 
             # arrows - up/down and rotate
             if event.key == pygame.K_UP:
@@ -72,6 +76,10 @@ while running:
 
     # send the current movement values to the drone
     drone.move()
+
+    # warn if too close to a wall
+    if drone.get_front_range("cm") < 30:
+        drone.drone_buzzer(1000, 100)
 
     # Fill the background with blue
     screen.fill((116, 197, 212))
