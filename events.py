@@ -12,10 +12,9 @@ pygame.display.set_caption("Drone Keyboard Control")
 drone = Drone()
 drone.pair()
 
-speed = 30  # how strong each movement is
+speed = 8  # how strong each movement is
 
-print("T = take off, L = land, SPACE = emergency stop, H = hover/stop")
-print("WASD = forward/back/left/right, arrows = up/down + rotate")
+clock = pygame.time.Clock()
 
 # Run until the user asks to quit
 running = True
@@ -81,7 +80,7 @@ while running:
     pygame.display.flip()
 
     # Limit frames per second
-    pygame.time.Clock().tick(30)
+    clock.tick(30)
 
 # Done! Land the drone and quit.
 drone.land()
