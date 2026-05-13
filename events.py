@@ -15,7 +15,7 @@ drone.pair()
 speed = 30  # how strong each movement is
 
 print("T = take off, L = land, SPACE = emergency stop, H = hover/stop")
-print("Arrows = forward/back/left/right, W/S = up/down, A/D = rotate")
+print("WASD = forward/back/left/right, arrows = up/down + rotate")
 
 # Run until the user asks to quit
 running = True
@@ -40,37 +40,35 @@ while running:
                 drone.set_throttle(0)
                 drone.set_yaw(0)
 
-            # forward / backward / left / right
-            if event.key == pygame.K_UP:
+            # wasd - fly forward/back/left/right
+            if event.key == pygame.K_w:
                 drone.set_pitch(speed)
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_s:
                 drone.set_pitch(-speed)
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 drone.set_roll(-speed)
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_d:
                 drone.set_roll(speed)
 
-            # up / down
-            if event.key == pygame.K_w:
+            # arrows - up/down and rotate
+            if event.key == pygame.K_UP:
                 drone.set_throttle(speed)
-            if event.key == pygame.K_s:
+            if event.key == pygame.K_DOWN:
                 drone.set_throttle(-speed)
-
-            # rotate left / right
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_LEFT:
                 drone.set_yaw(speed)
-            if event.key == pygame.K_d:
+            if event.key == pygame.K_RIGHT:
                 drone.set_yaw(-speed)
 
         # key let go - stop that movement
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                drone.set_pitch(0)
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                drone.set_roll(0)
             if event.key == pygame.K_w or event.key == pygame.K_s:
-                drone.set_throttle(0)
+                drone.set_pitch(0)
             if event.key == pygame.K_a or event.key == pygame.K_d:
+                drone.set_roll(0)
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                drone.set_throttle(0)
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 drone.set_yaw(0)
 
     # send the current movement values to the drone
