@@ -12,7 +12,7 @@ pygame.display.set_caption("Drone Control")
 drone = Drone()
 drone.pair()
 
-speed = 8  # how strong each movement is
+speed = 50  # how strong each movement is
 
 clock = pygame.time.Clock()
 
@@ -78,8 +78,10 @@ while running:
     drone.move()
 
     # warn if too close to a wall
-    if drone.get_front_range("cm") < 30:
+    distance = drone.get_front_range("cm")
+    if distance < 30:
         drone.drone_buzzer(1000, 100)
+        sleep(0.2)
 
     # Fill the background with blue
     screen.fill((116, 197, 212))
